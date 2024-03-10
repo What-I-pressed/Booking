@@ -27,7 +27,7 @@ namespace Helpers
                     }
                     else
                     {
-                        Console.WriteLine("Запит по фото пройшов із проблемой {0}", response.StatusCode);
+                        Console.WriteLine("Запит по фото пройшов із проблемою {0}", response.StatusCode);
                     }
                 }
             }

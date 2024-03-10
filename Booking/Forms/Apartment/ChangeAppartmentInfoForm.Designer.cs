@@ -61,6 +61,8 @@
             lvImages.Size = new Size(775, 268);
             lvImages.TabIndex = 55;
             lvImages.UseCompatibleStateImageBehavior = false;
+            lvImages.SelectedIndexChanged += lvImages_SelectedIndexChanged;
+            lvImages.MouseDoubleClick += lvImages_MouseDoubleClick;
             // 
             // txtNumberOfBeds
             // 
@@ -164,7 +166,7 @@
             label1.TabIndex = 47;
             label1.Text = "Номер кімнати";
             // 
-            // ChangeAppartmentInfoForm
+            // ChangeApartmentInfoForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -181,8 +183,9 @@
             Controls.Add(label2);
             Controls.Add(txtNumber);
             Controls.Add(label1);
-            Name = "ChangeAppartmentInfoForm";
+            Name = "ChangeApartmentInfoForm";
             Text = "ChangeAppartmentInfoForm";
+            Load += ChangeApartmentInfoForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

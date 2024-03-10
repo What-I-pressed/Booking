@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,31 @@ namespace Booking.Forms.Apartment
             lvImages.InsertionMark.Color = Color.Green;
             lvImages.AllowDrop = true;
         }
+        private void LoadListImages()
+        {
+            lvImages.Clear();
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                var apartment = context.Apartments.Include(x => x.ApartmentImages)
+                    .Where(a => a.Id == Id).ToList()[0];
+                var dir = Path.Combine(Directory.GetCurrentDirectory(), "images", "apartments");
+                var list = apartment.ApartmentImages.ToList();
+                foreach (var pic in list)
+                {
+                    var imgName = pic.Name;
+                    var imagePath = Path.Combine(dir, "600_" + imgName);
+                    string key = Guid.NewGuid().ToString();
+                    ListViewItem item = new ListViewItem();
+                    item.Tag = pic.Id;
+                    item.Text = apartment.Number;
+                    item.ImageKey = key;
+                    lvImages.LargeImageList.Images.Add(key,
+                        Image.FromStream(ImageWorker.GetFileStream(imagePath)));
+                    lvImages.Items.Add(item);
+                }
 
+            }
+        }
         private void btnSelectImages_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
@@ -73,17 +98,20 @@ namespace Booking.Forms.Apartment
                 context.ApartmentImages.Where(i => i.ApartmentId == Id).ExecuteDelete();
                 foreach (ListViewItem item in lvImages.Items)
                 {
-                    string path = (string)item.Tag;
-                    var imageName = ImageWorker.ImageSaveFile(path, "apartments");
-                    var image = new ApartmentImageEntity
+                    if((item.Tag as string) != null)
                     {
-                        ApartmentId = Id,
-                        Name = imageName,
-                        Priority = p,
-                    };
-                    context.ApartmentImages.Add(image);
-                    context.SaveChanges();
-                    p++;
+                        string path = (string)item.Tag;
+                        var imageName = ImageWorker.ImageSaveFile(path, "apartments");
+                        var image = new ApartmentImageEntity
+                        {
+                            ApartmentId = Id,
+                            Name = imageName,
+                            Priority = p,
+                        };
+                        context.ApartmentImages.Add(image);
+                        context.SaveChanges();
+                        p++;
+                    }
                 }
             }
             this.Close();
@@ -92,6 +120,34 @@ namespace Booking.Forms.Apartment
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void lvImages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lvImages_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            var image = lvImages.SelectedItems.Count > 0 ? lvImages.SelectedItems[0] : null;
+            if ((image.Tag as string) == null)
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    context.ApartmentImages.Where(i => i.Id == (int)image.Tag).ExecuteDelete();
+                    context.SaveChanges();
+                }
+                LoadListImages();
+            }
+            else
+            {
+                lvImages.Items.RemoveAt(image.Index);
+            }
+        }
+
+        private void ChangeApartmentInfoForm_Load(object sender, EventArgs e)
+        {
+            LoadListImages();
         }
     }
 }
