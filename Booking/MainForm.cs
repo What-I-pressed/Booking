@@ -3,6 +3,7 @@ using Booking.Forms.Hotel;
 using Domain.Entities;
 using Helpers;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Booking
 {
@@ -10,6 +11,7 @@ namespace Booking
     {
         public MainForm()
         {
+
             InitializeComponent();
         }
 

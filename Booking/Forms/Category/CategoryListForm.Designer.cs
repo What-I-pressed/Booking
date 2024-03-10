@@ -29,24 +29,39 @@
         private void InitializeComponent()
         {
             tvCategory = new TreeView();
+            btnAddCategory = new Button();
             SuspendLayout();
             // 
             // tvCategory
             // 
             tvCategory.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 204);
             tvCategory.ItemHeight = 44;
-            tvCategory.Location = new Point(21, 12);
+            tvCategory.Location = new Point(18, 9);
+            tvCategory.Margin = new Padding(3, 2, 3, 2);
             tvCategory.Name = "tvCategory";
-            tvCategory.Size = new Size(447, 480);
+            tvCategory.Size = new Size(392, 361);
             tvCategory.TabIndex = 0;
             tvCategory.NodeMouseClick += tvCategory_NodeMouseClick;
             // 
+            // btnAddCategory
+            // 
+            btnAddCategory.Font = new Font("Segoe UI", 16F);
+            btnAddCategory.Location = new Point(446, 9);
+            btnAddCategory.Name = "btnAddCategory";
+            btnAddCategory.Size = new Size(154, 39);
+            btnAddCategory.TabIndex = 1;
+            btnAddCategory.Text = "Add category";
+            btnAddCategory.UseVisualStyleBackColor = true;
+            btnAddCategory.Click += btnAddCategory_Click;
+            // 
             // CategoryListForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(942, 516);
+            ClientSize = new Size(824, 387);
+            Controls.Add(btnAddCategory);
             Controls.Add(tvCategory);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "CategoryListForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Керування категоріями";
@@ -57,5 +72,6 @@
         #endregion
 
         private TreeView tvCategory;
+        private Button btnAddCategory;
     }
 }

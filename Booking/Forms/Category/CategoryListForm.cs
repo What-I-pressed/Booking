@@ -66,7 +66,7 @@ namespace Booking.Forms.Category
             e.Node.Nodes.Clear();
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
-                var list = db.Categories.Where(x=>x.ParentId==parent.Id).ToList();
+                var list = db.Categories.Where(x => x.ParentId == parent.Id).ToList();
                 if (list.Count() > 0)
                 {
                     foreach (var item in list)
@@ -90,6 +90,13 @@ namespace Booking.Forms.Category
                 }
             }
 
+        }
+
+        private void btnAddCategory_Click(object sender, EventArgs e)
+        {
+            CategoryCreationForm dlg = new CategoryCreationForm();
+            dlg.ShowDialog();
+            LoadData();             
         }
     }
 }
