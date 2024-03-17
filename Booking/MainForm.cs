@@ -11,7 +11,11 @@ namespace Booking
     {
         public MainForm()
         {
-
+           // using(ApplicationDbContext context = new ApplicationDbContext())
+           // {
+           //     context.Categories.ExecuteDelete();
+           //     context.SaveChanges();
+           // }
             InitializeComponent();
         }
 

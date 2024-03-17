@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Helpers;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -96,7 +97,26 @@ namespace Booking.Forms.Category
         {
             CategoryCreationForm dlg = new CategoryCreationForm();
             dlg.ShowDialog();
-            LoadData();             
+            LoadData();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            string categoryName = txtDelete.Text;
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                context.Categories.Where(c => c.Name == categoryName).ExecuteDelete();
+                context.SaveChanges();
+            }
+            LoadData();
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            CategoryEditForm dlg = new CategoryEditForm();
+            dlg.Name = txtEdit.Text;
+            dlg.ShowDialog();
+            LoadData();
         }
     }
 }

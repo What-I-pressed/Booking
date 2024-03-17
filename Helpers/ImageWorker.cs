@@ -14,6 +14,7 @@ namespace Helpers
         /// <returns>Повертаємо назву фото</returns>
         public static string? ImageSaveUrl(string url, string folderName, string? imageName = null)
         {
+            if(url == string.Empty) return null;
             try
             {
                 using (HttpClient client = new HttpClient())
